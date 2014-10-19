@@ -4,5 +4,7 @@ generate_descriptors: generate_descriptors.cpp
 kmeans: kmeans.cpp
 	g++ kmeans.cpp -O3 -o kmeans -lopencv_core -lopencv_highgui -lopencv_features2d
 
+histograms: histograms.cpp
+	g++ histograms.cpp -O3 -o histograms -lopencv_core -lopencv_highgui -lopencv_features2d
 clean:
 	rm kmeans generate_descriptors 
