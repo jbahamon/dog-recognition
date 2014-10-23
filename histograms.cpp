@@ -13,6 +13,8 @@ using namespace cv;
 void save_sparse_descriptors(ostream& stream, vector<int> labels, vector<Mat> data) 
 {
 
+    cout << data.size() << endl;
+
     for (int i = 0; i < data.size(); ++i)
     {
         Mat descriptor = data[i];
@@ -39,8 +41,8 @@ int main (int argc, const char** argv)
 
     int K_values[4] = { 100, 500, 1000, 1500 };
 
-    String dog_folder = "./dogs/train/";
-    String nondog_folder = "./no-dogs/train/";
+    String dog_folder = "./dogs/eval/";
+    String nondog_folder = "./no-dogs/eval/";
     stringstream filename;
 
     Ptr<FeatureDetector > detector(new SiftFeatureDetector());
@@ -55,7 +57,6 @@ int main (int argc, const char** argv)
     vector<KeyPoint> keypoints;
 
     vector<int> labels;
-    vector<Mat> histograms;
 
     Mat histogram;
     Mat img;
@@ -70,7 +71,9 @@ int main (int argc, const char** argv)
 
         bowide->setVocabulary(vocabulary);
 
-        for (int i = 0; i < 500; i++) 
+        vector<Mat> histograms;
+
+        for (int i = 0; i < 200; i++) 
         {
             filename << dog_folder << i << ".jpg";
             img = imread(filename.str(),0);
@@ -83,7 +86,7 @@ int main (int argc, const char** argv)
 
         }
         
-        for (int i = 0; i < 500; i++) 
+        for (int i = 0; i < 200; i++) 
         {
             filename << nondog_folder << i << ".jpg";
             img = imread(filename.str(),0);
@@ -96,7 +99,7 @@ int main (int argc, const char** argv)
 
         }
         
-        param_name << "training_" << K_values[k_idx];
+        param_name << "eval_" << K_values[k_idx];
 
         ofstream histograms_file;
         histograms_file.open(param_name.str().c_str());
