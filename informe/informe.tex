@@ -66,17 +66,54 @@ Se estudió el desempeño de SVM sobre histogramas de palabras visuales, siguien
 
 \subsection{Generación de palabras visuales}
 
-Generación de palabras visuales mediante clustering usando 5000 imagenes aleatorias del dataset caltech-256
+\begin{comment}
+A) Generación de palabras visuales mediante clustering: En esta parte, se debe determinar un corpus formado por
+5000 imágenes, bajo las cuales se determinarán K palabras visuales. Para obtener el corpus se deben seleccionar
+aleatoriamente 5000 imágenes del dataset Caltech-256 (http://www.vision.caltech.edu/Image_Datasets/Caltech256/).
+Para cada imagen del corpus se debe calcular descriptores SIFT. Suponiendo que cada imagen genere
+aproximadamente 500 descriptores locales, en total tendremos 2.500.000 descriptores. Con el fin de facilitar el
+proceso se deben seleccionar aleatoriamente 100.000 descriptores que serán, finalmente, los que determinarán los K
+clústers. Luego, las K palabras visuales se obtienen mediante clusterizar el conjunto total de descriptores locales (los
+100.000). Una palabra visual estará representada por el centroide de un determinado clúster. Para el proceso de
+clustering deben usar la estrategia K-MEANS.
+Para obtener los descriptores locales puede usar diferentes libs como:
+• VLFeat http://www.vlfeat.org/
+• SIFT de OpenCV
+• SIFT de Lowe (http://www.cs.ubc.ca/~lowe/keypoints/)
+• Affine Covariant Features (http://www.robots.ox.ac.uk/~vgg/research/affine/index.html)
+\end{comment}
 
-obtubimos los descriptores SIFT del corpus, clusterizamos usando k-means, los centroides son nuestras k palabras visuales
+Se definió un corpus formado por 5000 imágenes extraidas del dataset caltech-256. Para cada imagen se calcularon los descriptores SIFT.
+Estos descriptores locales fueron clusterizados utilizando k-means. Los k centroides entregados por este método se utilizaron como
+palabras visuales, para la posterior clasificación.
+
+Se generaron palabras visuales para $k = 100, 500, 1000, 1500$.
 
 \subsection{Entrenamiento}
 
-Se usaron x imagenes en SVM
+\begin{comment}
+B) Entrenamiento usando SVN mediante histogramas Bag of Words: En esta etapa se debe modelar un
+clasificador que permita reconocer la ocurrencia de un perro en una imagen. Para este fin, es necesario obtener un
+conjunto de entrenamiento. Se recomienda obtener 500 imágenes de perros y 500 imágenes de no-perros. El dataset
+Caltech-256 contiene aproximadamente 100 imágenes de perros y miles de imágenes de no perros. Para completar el
+dataset de los patrones positivos (imágenes conteniendo un perro) se recomienda obtener las imágenes por Google.
+Para facilitar esta tarea, este dataset puede ser compartido entre todos los estudiantes del ramo.
+Teniendo el conjunto de entrenamiento, cada imagen se representa como un histograma Bag of Words. Este
+histograma representa la distribución de ocurrencias de descriptores locales de la imagen entre los K clústers o
+palabras visuales. El histograma debe ser normalizado a la unidad.
+La clasificación debe estar basada en la estrategia Support Vector Machine. Para este fin, se recomienda usar
+libSVM (http://www.csie.ntu.edu.tw/~cjlin/libsvm/). Deben experimentar con SVM + kernel RBF, los parámetros C y
+gamma deberán ser elegidos mediante validación cruzada. LibSVM incluye un pograma en Phyton para obtener los
+mejores parámetros.
+\end{comment}
+
+Se utilizó la librería libSVM, en particular el script "easy.py" incluido para entrenar cuatro modelos, cada modelo utiliza histogramas de 100, 500, 1000 ó 1500
+palabras visuales. Todos los modelos fueron entrenados utilizando 500 imágenes del dataset generado.
 
 \subsection{Clasificación}
 
 Explicar $\Theta$ el ratio de FPR y TPR y bla bla ROC
+Esto debe servir para definir el ROC
 
 \subsection{Dataset utilizado}
 Se construyó un dataset de 1400 imágenes en total. La mitad de estas imágenes son imágenes de perros extraidas aleatoriamente del dataset Cats and Dogs. 
@@ -136,6 +173,18 @@ contexto.
 \end{tikzpicture}
     \caption{Curva ROC obtenida al variar el parámetro umbral $\Theta \in \{ 0.1,0.5,...,0.9,0.91,...0,99\}$.}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subcaptionbox{No-Perro clasificado como Perro.}
+{\includegraphics[scale=0.4]{../no-dogs/eval/96.jpg}}
+    \subcaptionbox{Perro clasificado como No-Perro.}
+{\includegraphics[scale=0.3]{../dogs/eval/3.jpg}}
+    \caption{Errores de clasificación.}
+\end{figure}
+
+Antes de seguir tengo que arreglar el ROC.
+
 
 \section{Conclusiones}
 
