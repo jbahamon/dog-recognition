@@ -2,13 +2,14 @@ import numpy as np
 
 #1 : dog
 #0 : no dog
-def processFile(inFile,thethas):
+def processFile(inFile,thetas):
     #header doesn't help us
     inFile.readline()
     # now read what is important
-    current_positives = [0] * len(thethas)
-    TP = [0.0] * len(thethas)
-    FP = [0.0] * len(thethas)
+    total_positives = 0
+    total_negatives = 0
+    TP = [0.0] * len(thetas)
+    FP = [0.0] * len(thetas)
     
     j = 0
     for line in inFile:
@@ -17,20 +18,21 @@ def processFile(inFile,thethas):
         # asigned class, class1 prob, class0 prob
         line = [int(line[0]),float(line[1]),float(line[2])]
         
-        for i in range(len(thethas)):
+        for i in range(len(thetas)):
+            if line[1] > thetas[i]:
+                total_positives += 1
+            else:
+                total_negatives += 1
             # dogP / nodogP
-            if line[1] / line[2] > thethas[i]:
-                current_positives[i] += 1
+            if line[1] / line[2] > thetas[i]:
+                #current_positives += 1
                 if j < 200:#is REALLY a dog?
                     TP[i] += 1
                 else:
                     FP[i] += 1
-    
-    t_pos = current_positives
-    t_neg = [ 400 - h for h in t_pos ]
-    
-    TPR = [ positives / total_positives for (positives,total_positives) in zip(TP,t_pos) ]
-    FPR = [ positives / total_negatives for (positives,total_negatives) in zip(FP,t_neg) ]
+        
+    TPR = [ positives / total_positives for positives in TP ]
+    FPR = [ positives / total_negatives for positives in FP ]
     
     return zip(FPR,TPR)
 

@@ -71,95 +71,28 @@ obtubimos los descriptores SIFT del corpus, clusterizamos usando k-means, los ce
 \subsection{Entrenamiento}
 
 \subsection{Dataset utilizado}
-el dataset consisitio en
-500 imagenes de train y 200 imagenes de test de perros extraidas del dataset Zisserman CAts and Dogs
-500 imagenes de train y 200 imagenes de test de NO perros extraidas del dataset caltech-101
-
-\begin{comment}
-En este trabajo se realizó la evaluación de un algoritmo para el reconocimiento
-de piel basado en modelos estadísticos de color. 
-
-\subsection{Modelos de color}
-
-Una forma de modelar una característica a detectar es mediante un modelo
-estadístico sobre los colores de la imagen. Un pixel con cierto valor $rgb$ es
-clasificado por uno de estos modelos como ser efectivamente piel si:
-
-\begin{equation}
-    \frac{ \mathbb{P} [ rgb|skin ] }{ \mathbb{P} [ rgb | \neg skin ] } \geq
-    \Theta
-\end{equation}
-
-con $\Theta$ un umbral que puede ser descrito como función del costo de tener
-falsos positivos y falsos negativos:
-
-\begin{equation}
-    \Theta = \frac{c_p \mathbb{P} [\neg skin]}{c_n \mathbb{P}[skin]}
-\end{equation}
-
-Ahora bien, las distribuciones $\mathbb{P} [ rgb|skin ]$ y $\mathbb{P} [ rgb | \neg
-skin ]$ pueden ser determinadas de distintas formas. En el caso de este trabajo, se
-utilizó un modelo que describe estas distribuciones como una combinación de
-funciones gaussianas.
-
-\subsection{Modelo basado en Mezcla de Gaussianas}
-
-Una forma de modelar las distribuciones de probabilidad  $\mathbb{P} [ rgb|skin
-]$ y $\mathbb{P} [ rgb | \neg skin ]$ es mediante una suma de funciones
-gaussianas:
-
-\begin{equation}
-    \mathbb{P}[\mathbf{x}] = \sum\limits_{i=1}^N w_i
-    \frac{1}{(2\pi)^{\frac{3}{2}} | \Sigma_i |^\frac{1}{2}} e^{-\frac{1}{2}
-    (\mathbf{x} - \mathbf{\mu}_i)^{\text{T}} \Sigma_i ^{-1} (\mathbf{x} -
-    \mathbf{\mu}_i)},
-\end{equation} 
-
-donde los valores $\mu_i$ y $\Sigma_i$ son las medias de cada gaussiana y las
-correspondientes matrices (diagonales) de covarianza. Los valores $w_i$
-determinan el peso que cada gaussiana ejerce en la mezcla. $N$ define la
-complejidad del modelo, (ya que un mayor valor de $N$ resulta en más gaussianas
-y por tanto un mayor número de grados de libertad) siendo un parámetro a
-elección. 
-
-Los autores de \cite{skin} entrenaron modelos para estimar ambas
-distribuciones de probabilidad descritas, con lo que estos parámetros tienen
-valores dados. Así, el trabajo se enfocó en variar el umbral de detección,
-$\Theta$.
-
-\subsection{Dataset utilizado}
-
-Se construyó un pequeño \emph{dataset} compuesto por imágenes de dos tipos. Por
-un lado, se recopilaron 14 imágenes buscando incorporar variaciones en
-iluminación, tonos de piel y el nivel de detalle del fondo. Otras 16 imágenes
-fueron tomadas del dataset utilizado en \cite{dataset} (junto con las
-correspondientes \emph{ground truths}). Para cada imagen del
-dataset generado, se obtuvo una imagen que identifica las zonas que son piel,
-generándose así la \emph{ground truth} contra la que se comparó el rendimiento
-del modelo estadístico. Cada imagen del dataset incluye al menos a una persona,
-de modo que siempre se tiene piel por detectar.
-
-\end{comment}
+Se construyó un dataset de 1400 imágenes en total. La mitad de estas imágenes son imágenes de perros extraidas aleatoriamente del dataset Cats and Dogs. 
+El resto, 700 imágenes, no contienen perros, y fueron extraidas aleatoriamente del dataset caltech-101.
+Se extrajeron 500 imágenes de perros y no-perros para formar parte del set de entrenamiento.
+Las 400 imágenes restantes forman el set de prueba.
 
 \section{Resultados obtenidos}
 
-Para evaluar el desempeño del modelo estudiado, se le utilizó para detectar piel
-en las imágenes del dataset, contrastándolos con los perfiles de piel
-etiquetados correctamente. 
+Para evaluar el desempeño del modelo estudiado, se le ultilizó para clasificar imágenes entre dos clases:
+Perro y No-Perro. Se contrastaron los resultados obtenidos con la clasificación correcta dada por la distribución en el dataset.
 
 Se definen, en este contexto: 
 
 \begin{itemize}
-    \item el \textbf{número de positivos ($P$)} como el número de pixeles en el dataset
-        que corresponden a piel (según la \emph{ground truth});
-    \item el \textbf{número de negativos ($N$)} como el número de pixeles en el dataset
-        que no corresponden a piel;
+    \item el \textbf{número de positivos ($P$)} como el número de imágenes en el dataset
+        que corresponden a Perros.
+    \item el \textbf{número de negativos ($N$)} como el número de imágenes en el dataset
+        que no corresponden a Perros.
     \item el \textbf{número de falsos positivos ($FP$)} como el número de
-        pixeles en el dataset que el modelo identifica como piel, pero que no
-        están etiquetados como tal en la \emph{ground truth};
+        imágenes en el dataset que el modelo identifica que contiene Perros, pero que no
+        están clasificados como tal en el dataset.
     \item el \textbf{número de verdaderos positivos ($TP$)} como el número de
-        pixeles en el dataset que el algoritmo identifica correctamente como
-        piel;
+        imágenes en el dataset que el algoritmo identifica que contiene correctamente un Perro.
     \item la \textbf{tasa de verdaderos positivos ($TPR$)} (también llamada
         probabilidad de detección correcta) como $\frac{TP}{P}$;
     \item la \textbf{tasa de falsos positivos ($FPR$)} (o probabilidad de
@@ -173,11 +106,6 @@ ROC (del inglés \emph{receiver operating characteristic}). Esta curva muestra
 cuán apropiado puede ser un modelo o algoritmo para ciertas aplicaciones, ya que
 el costo de un falso positivo versus un verdadero positivo varía dependiendo del
 contexto.
-
-Se construyó una curva ROC a partir de los resultados obtenidos al utilizar el modelo de mezcla
-de gaussianas en el dataset generado y la posterior comparación con la
-\emph{ground truth}:
-
 
 \begin{figure}[h]
     \centering
@@ -201,91 +129,7 @@ de gaussianas en el dataset generado y la posterior comparación con la
     \caption{Curva ROC obtenida al variar el parámetro umbral $\Theta \in \{ 0.1,0.5,...,0.9,0.91,...0,99\}$.}
 \end{figure}
 
-Para ejemplificar de mejor forma el comportamiento del algoritmo, se presentan a
-continuación algunos ejemplos en los que el modelo muestra diferentes grados de
-efectividad.
-\begin{comment}
-\begin{figure}[H]
-    \centering
-   \hfill\subcaptionbox{Imagen original}{\includegraphics[scale=0.4]{../images/nonbin/05.png}}
-   \hfill\subcaptionbox{\emph{GroundTruth}.}{\includegraphics[scale=0.4]{../images/bin/05.png}}
-   \hfill\subcaptionbox{Output de \emph{Mixture of Gaussians} con $\Theta = 0.5$.}{\includegraphics[scale=0.4]{../done0.5/05.png}}
-   \hfill\subcaptionbox{Output de \emph{MoG} con $\Theta = 0.9$.}{\includegraphics[scale=0.4]{../done0.9/05.png}}
-   \caption{Imagen para la cual el modelo presenta un buen comportamiento}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-   \hfill\subcaptionbox{Imagen
-   original}{\includegraphics[scale=0.3]{../images/nonbin/17.png}}
-   \hfill\subcaptionbox{\emph{GroundTruth}.}{\includegraphics[scale=0.3]{../images/bin/17.png}}
-   \hfill\subcaptionbox{Output de \emph{Mixture of Gaussians} con $\Theta =
-   0.5$.}{\includegraphics[scale=0.3]{../done0.5/17.png}}
-   \hfill\subcaptionbox{Output de \emph{MoG} con $\Theta =
-   0.9$.}{\includegraphics[scale=0.3]{../done0.9/17.png}}
-   \caption{Imagen para la cual el modelo presenta un comportamiento regular}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-   \hfill\subcaptionbox{Imagen
-   original}{\includegraphics[scale=0.2]{../images/nonbin/09.png}}
-   \hfill\subcaptionbox{\emph{GroundTruth}.}{\includegraphics[scale=0.2]{../images/bin/09.png}}
-   \hfill\subcaptionbox{Output de \emph{Mixture of Gaussians} con $\Theta =
-   0.5$.}{\includegraphics[scale=0.2]{../done0.5/09.png}}
-   \hfill\subcaptionbox{Output de \emph{MoG} con $\Theta =
-   0.9$.}{\includegraphics[scale=0.2]{../done0.9/09.png}}
-   \caption{Imagen para la cual el modelo presenta un mal comportamiento}
-\end{figure}
-\end{comment}
-\subsection{Discusión}
-
-Se observa que, en general, el modelo alcanza resultados regulares. La curva ROC
-obtenida muestra un desempeño ligeramente menor que el alcanzado por los autores
-de \cite{skin}. En particular, el modelo parece presentar un menor rendimiento
-cuando el fondo es más bien simple, logrando, por el contrario, un mejor
-comportamiento en casos en los que el fondo posee elementos rojizos (como
-madera, por ejemplo). 
-
-Bajo condiciones de iluminación normales, el modelo parece presentar una alta
-sensibilidad, si bien no una alta especificidad (lo que se observa rambién en la
-curva ROC obtenida). Se aprecia, además, que se aquellas imágenes en las que el
-fondo presenta colores similares a la piel, como es esperable. En el otro
-extremo, imágenes con iluminación coloreada fallan considerablemente,
-presentando una bajísima cantidad de verdaderos positivos.
-
 \section{Conclusiones}
-
-%Observamos que nuestros resultados son peores que los de "la gente del papaer"
-
-%creemos que los resultados mejorarian de agregar imagenes sin piel que detectar
-
-%las imagenes que elegimos estan sucias: colores de fondo. -> fallan tanto
-
-El trabajo realizado permitió observar un peor desempeño de
-\emph{Mixture of Gaussians} sobre el conjunto de datos construido que el
-obtenido por \emph{Jones y Rehg}. Esto puede ser atribuido a la selección de
-imágenes que constituyen el dataset utilizado. A diferencia de Jones y Rehg, las
-imágenes utilizadas siempre tienen una persona en ellas, lo que induce una menor
-relación de negativos. Esto, a su vez, hace que los falsos negativos se vean más
-representados. Es posible que agregar imágenes iluminadas, de buena calidad e
-incluso imágenes en las que no hay presencia de piel, contribuirían a mejorar el
-desempeño de \emph{MoG} en un dataset de este tamaño.
-
-Por otro lado, se aprecia que existen diferentes tipos de error. En ciertos
-casos, existen muchos pixeles dispersos detectados como piel esparcidos por la
-imagen. En este caso, podría ser interesante aplicar algún mecanismo de
-detección de \emph{blobs} de modo de descartar este tipo de errores. Otros casos
-corresponden a la identificación de ciertas telas y texturas como piel, en los
-que combinar con técnicas como \emph{local binary patterns} podrían resultar en
-un mejor desempeño. De todos modos, la conveniencia de complementar el modelo
-con estas herramientas depende del contexto de uso.
-
-A pesar de sus limitaciones, \emph{MoG} resulta útil como herramienta para la
-depuración de ambigüedades en métodos más complejos de detección de rostros y de
-personas. Esto ya que, una vez detectada una ambigüedad, es posible realizar
-\emph{MoG} sobre la zona en cuestión y discriminar a partir de la presencia de
-piel.
 
 \selectlanguage{spanish}
 \selectbiblanguage{spanish}
