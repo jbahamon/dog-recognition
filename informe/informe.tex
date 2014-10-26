@@ -48,27 +48,35 @@ las criaturas a adaptarce a sus medios, siendo la mímesis con su entorno una de
 Los animales domésticos han evolucionado al alero de la humanidad. En tiempos modernos muchos animales viven en entornos urbanos,
 y en su rol de mascotas son objetivo de retratos que son subidas a internet por sus dueños.
 
-Los perros siendo una de las mascotas más comunes marcan una fuerte presencia en los retratos de mascotas en internet.
 Presentan un problema adicional. Muchos de estos animales presentan grandes diferencias entres sus razas: tamaño, color, textura, forma, etc.
 El estudio de la detección de perros en un conjunto de imágenes es un problema de interés, es un caso representativo de clasificación, para una clase con características
-altamente deformables.% La disponibilidad de imágenes lo hace un caso de interés.
+altamente deformables. La ventaja que brinda el estudio sobre imágenes de perros es la alta disponibilidad de imágenesde prueba en internet.
+Los perros, siendo una de las mascotas más comunes, marcan una fuerte presencia en los retratos de mascotas en internet.
 
-TODO
+Se empleó la estrategia Bag of Words, una de las técnicas en el reconocimiento de patrones que arrojan mejores resultados para la clasificación.
+Se puso énfasis en el estudio de esta estrategia para el reconocimiento de imágenes de perros. En particular se analizó el desempeño de la clasificación de SVM,
+utilizando histogramas de palabras visuales, al variar la razón de costo asociado a los falsos positivos y falsos negativos ($\Theta$).
 
-Estudiamos el uso de SVM sobre descirptores de palabras visuales, utilizando k clústers desde k-means siguiendo la estrategia Bag of Words.
-
-Hablar de los dataset
+Se construyó un dataset de 1400 imágenes, de las cuales la mitad contienen imágenes de perros extraidas del dataset Cats and Dogs.
+Las restantes imágenes no contienen perros y fueron extraidas aleatoriamente del dataset caltech-101.
 
 \section{Descripción del Trabajo}
 
-Estudiamos el uso de SVM sobre descirptores de palabras visuales, utilizando k clústers desde k-means siguiendo la estrategia Bag of Words.
+Se estudió el desempeño de SVM sobre histogramas de palabras visuales, siguiendo la estrategia Bag of Words.
 
 \subsection{Generación de palabras visuales}
+
 Generación de palabras visuales mediante clustering usando 5000 imagenes aleatorias del dataset caltech-256
 
 obtubimos los descriptores SIFT del corpus, clusterizamos usando k-means, los centroides son nuestras k palabras visuales
 
 \subsection{Entrenamiento}
+
+Se usaron x imagenes en SVM
+
+\subsection{Clasificación}
+
+Explicar $\Theta$ el ratio de FPR y TPR y bla bla ROC
 
 \subsection{Dataset utilizado}
 Se construyó un dataset de 1400 imágenes en total. La mitad de estas imágenes son imágenes de perros extraidas aleatoriamente del dataset Cats and Dogs. 
