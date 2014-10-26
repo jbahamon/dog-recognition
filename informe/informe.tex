@@ -55,10 +55,12 @@ Se puso énfasis en el estudio de esta estrategia para el reconocimiento de
 imágenes de perros. En particular, se analizó el desempeño de la clasificación de SVM,
 utilizando histogramas de palabras visuales, al variar la razón de costo asociado a los falsos positivos y falsos negativos ($\Theta$).
 
-Se construyó un dataset de 1400 imágenes, de las cuales la mitad contienen imágenes de perros extraidas del dataset Cats and Dogs.
-Las restantes imágenes no contienen perros y fueron extraidas aleatoriamente del
-dataset caltech-101. Por otro lado, se utilizó un \emph{corpus} de 5000 imágenes
-del dataset caltech-256 para generar las palabras visuales.
+Se construyó un dataset de 1400 imágenes, de las cuales la mitad contienen
+imágenes de perros extraidas del dataset Cats and Dogs.\cite{parkhi12a} Las
+restantes imágenes no contienen perros y fueron extraidas aleatoriamente del
+dataset caltech-101\cite{caltech101}. Por otro lado, se utilizó un \emph{corpus}
+de 5000 imágenes del dataset caltech-256\cite{griffin2007caltech} para generar
+las palabras visuales.
 
 \section{Descripción del Trabajo}
 
@@ -66,7 +68,9 @@ Se estudió el desempeño de SVM sobre histogramas de palabras visuales, siguien
 
 \subsection{Generación de palabras visuales}
 
-Se definió un corpus formado por 5000 imágenes extraidas del dataset caltech-256. Para cada imagen se calcularon los descriptores SIFT.
+Se definió un corpus formado por 5000 imágenes extraidas del dataset
+caltech-256\cite{griffin2007caltech}. Para cada imagen se calcularon los
+descriptores SIFT.
 Estos descriptores locales fueron clusterizados utilizando k-means. Los $k$ centroides entregados por este método se utilizaron como
 palabras visuales, para la posterior clasificación.
 
@@ -98,10 +102,11 @@ Una imágen es clasificada como perro si:
 Con $\Theta$ un umbral, el cual puede ser descrito como la función de costo de tener falsos positivos y negativos.
 
 \subsection{Dataset utilizado}
+
 Se construyó un dataset de 1400 imágenes en total. La mitad de estas imágenes
-son imágenes de perros extraidas aleatoriamente del dataset Cats and Dogs.  El
+son imágenes de perros extraidas aleatoriamente del dataset Cats and Dogs\cite{parkhi12a}.  El
 resto, 700 imágenes, no contienen perros, y fueron extraidas aleatoriamente del
-dataset caltech-101.  Se extrajeron 500 imágenes de perros y no-perros para
+dataset caltech-101\cite{caltech101}.  Se extrajeron 500 imágenes de perros y no-perros para
 formar parte del set de entrenamiento.  Las 400 imágenes restantes forman el set
 de prueba.
 
