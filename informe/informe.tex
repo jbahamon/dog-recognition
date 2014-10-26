@@ -38,21 +38,27 @@
 \section{Introducción}
 
 La detección de animales en imágenes es una tarea compleja. La evolución ha llevado a
-las criaturas a adaptarce a sus medios, siendo la mímesis con su entorno una de las claves para la supervivencia de las especies.
-Los animales domésticos han evolucionado al alero de la humanidad. En tiempos modernos muchos animales viven en entornos urbanos,
+las criaturas a adaptarse a sus medios, siendo la mímesis con su entorno una de
+las claves para la supervivencia de las especies; adicionalmente, los animales
+domésticos han evolucionado al alero de la humanidad. En tiempos modernos, muchos animales viven en entornos urbanos,
 y en su rol de mascotas son objetivo de retratos que son subidas a internet por sus dueños.
 
-Presentan un problema adicional. Muchos de estos animales presentan grandes diferencias entres sus razas: tamaño, color, textura, forma, etc.
-El estudio de la detección de perros en un conjunto de imágenes es un problema de interés, es un caso representativo de clasificación, para una clase con características
-altamente deformables. La ventaja que brinda el estudio sobre imágenes de perros es la alta disponibilidad de imágenesde prueba en internet.
-Los perros, siendo una de las mascotas más comunes, marcan una fuerte presencia en los retratos de mascotas en internet.
+Presenta un problema adicional el que muchos de estos animales posean grandes diferencias entre sus razas: tamaño, color, textura, forma, etc.
+El estudio de la detección de perros en un conjunto de imágenes es un problema
+de interés, al ser un caso representativo de clasificación para una clase con características
+altamente deformables. Por otro lado, una ventaja que brinda el estudio sobre
+imágenes de perros es la alta disponibilidad de imágenes de prueba en internet:
+los perros, siendo una de las mascotas más comunes, marcan una fuerte presencia en los retratos de mascotas.
 
-Se empleó la estrategia Bag of Words, una de las técnicas en el reconocimiento de patrones que arrojan mejores resultados para la clasificación.
-Se puso énfasis en el estudio de esta estrategia para el reconocimiento de imágenes de perros. En particular se analizó el desempeño de la clasificación de SVM,
+En este trabajo se empleó la estrategia \emph{Bag of Words}, una de las técnicas en el reconocimiento de patrones que arroja mejores resultados para la clasificación.
+Se puso énfasis en el estudio de esta estrategia para el reconocimiento de
+imágenes de perros. En particular, se analizó el desempeño de la clasificación de SVM,
 utilizando histogramas de palabras visuales, al variar la razón de costo asociado a los falsos positivos y falsos negativos ($\Theta$).
 
 Se construyó un dataset de 1400 imágenes, de las cuales la mitad contienen imágenes de perros extraidas del dataset Cats and Dogs.
-Las restantes imágenes no contienen perros y fueron extraidas aleatoriamente del dataset caltech-101.
+Las restantes imágenes no contienen perros y fueron extraidas aleatoriamente del
+dataset caltech-101. Por otro lado, se utilizó un \emph{corpus} de 5000 imágenes
+del dataset caltech-256 para generar las palabras visuales.
 
 \section{Descripción del Trabajo}
 
@@ -61,20 +67,26 @@ Se estudió el desempeño de SVM sobre histogramas de palabras visuales, siguien
 \subsection{Generación de palabras visuales}
 
 Se definió un corpus formado por 5000 imágenes extraidas del dataset caltech-256. Para cada imagen se calcularon los descriptores SIFT.
-Estos descriptores locales fueron clusterizados utilizando k-means. Los k centroides entregados por este método se utilizaron como
+Estos descriptores locales fueron clusterizados utilizando k-means. Los $k$ centroides entregados por este método se utilizaron como
 palabras visuales, para la posterior clasificación.
 
 Se generaron palabras visuales para $k = 100, 500, 1000, 1500$.
 
 \subsection{Entrenamiento}
 
-Se utilizó la librería libSVM, en particular el script "easy.py" incluido para entrenar cuatro modelos, cada modelo utiliza histogramas de 100, 500, 1000 ó 1500
-palabras visuales. Todos los modelos fueron entrenados utilizando 500 imágenes del dataset generado.
+Se utilizó la librería libSVM para la generación de los modelos. Los datos (es
+decir, el valor de cada elemento de los histogramas que describen a cada imagen)
+fueron escalados entre 0 y 1. Se utilizó validación cruzada para buscar los
+mejores valores de $C$ y $\gamma$, los parámetros de entrenamiento. Cada modelo
+utiliza histogramas de 100, 500, 1000 ó 1500 palabras visuales. Todos los
+modelos fueron entrenados utilizando 500 imágenes del dataset generado y
+utilizando el \emph{kernel} RBF.
 
 \subsection{Clasificación}
 
-Se clasificaron 400 imágenes, 200 de ellas conteniendo efectivamente perros, utilizando los modelos entranados anteriormente. La salida de SVM es un par de probabilidades 
-$(\mathbb{P}_{dog},\mathbb{P}_{\neg dog})$.
+Se clasificaron 400 imágenes, 200 de ellas conteniendo efectivamente perros,
+utilizando los modelos entranados anteriormente. La salida de SVM es un par de
+probabilidades $(\mathbb{P}_{dog},\mathbb{P}_{\neg dog})$.
 
 Una imágen es clasificada como perro si:
 
@@ -86,15 +98,18 @@ Una imágen es clasificada como perro si:
 Con $\Theta$ un umbral, el cual puede ser descrito como la función de costo de tener falsos positivos y negativos.
 
 \subsection{Dataset utilizado}
-Se construyó un dataset de 1400 imágenes en total. La mitad de estas imágenes son imágenes de perros extraidas aleatoriamente del dataset Cats and Dogs. 
-El resto, 700 imágenes, no contienen perros, y fueron extraidas aleatoriamente del dataset caltech-101.
-Se extrajeron 500 imágenes de perros y no-perros para formar parte del set de entrenamiento.
-Las 400 imágenes restantes forman el set de prueba.
+Se construyó un dataset de 1400 imágenes en total. La mitad de estas imágenes
+son imágenes de perros extraidas aleatoriamente del dataset Cats and Dogs.  El
+resto, 700 imágenes, no contienen perros, y fueron extraidas aleatoriamente del
+dataset caltech-101.  Se extrajeron 500 imágenes de perros y no-perros para
+formar parte del set de entrenamiento.  Las 400 imágenes restantes forman el set
+de prueba.
 
 \section{Resultados obtenidos}
 
-Para evaluar el desempeño del modelo estudiado, se le ultilizó para clasificar imágenes entre dos clases:
-Perro y No-Perro. Se contrastaron los resultados obtenidos con la clasificación correcta dada por la distribución en el dataset.
+Para evaluar el desempeño del modelo estudiado, se le ultilizó para clasificar
+imágenes entre dos clases: Perro y No-Perro. Se contrastaron los resultados
+obtenidos con la clasificación correcta dada por la distribución en el dataset.
 
 Se definen, en este contexto: 
 
@@ -158,15 +173,22 @@ a la piel, como es esperable. En el otro extremo, im ́agenes con iluminaci ́on
 considerablemente, presentando una baj ́ısima cantidad de verdaderos positivos.
 \end{comment}
 
-En general se observan buenos resultados en la clasificación. Esta resulta mejor para descriptores de $k=500$ y $k=1000$ palabras visuales.
-Los falsos negativos obtenidos, perros clasificados como no-perros, generalmente son imágenes en las que el perro no juega un rol central.
-Es decir el fondo utiliza gran parte del espacio de la imágen. 
-Los falsos positivos obtenidos, no perros clasificados como perros, consisten en su mayoría de animales, como gatos, kanguros y rostros humanos.
-Es probable que esta confusión se deba a la presencia de cabello, el cual tiene palabras visuales comunes al pelaje de los perros.
+En general se observan buenos resultados en la clasificación. Esta resulta mejor
+para descriptores de $k=500$ y $k=1000$ palabras visuales.  Los falsos negativos
+obtenidos (perros clasificados como no-perros) generalmente son imágenes en las
+que el perro no juega un rol central: por ejemplo, cuando el fondo utiliza gran parte del
+espacio de la imagen. Los falsos positivos obtenidos (no-perros clasificados
+como perros) consisten en su mayoría en animales como gatos, canguros y rostros
+humanos. Es probable que esta confusión se deba a la presencia de cabello, el
+cual tiene palabras visuales comunes con el pelaje de los perros. Así,
+complementar descriptores locales como SIFT con algún tipo de descriptor
+orientado a la forma pudiera ayudar a mejorar este algoritmo.
 
-De los modelos trabajados $k=100$ es el que se desempeña peor. Tiene alta especificidad. (?)
-
-TODO
+De entre los modelos trabajados, el que utiliza 100 palabras visuales es el que
+presenta el peor comportamiento. La baja cantidad de palabras visuales resultó,
+en este caso, en que el modelo tiende a clasificar la mayoría de las imágenes
+como perros, con lo que obtiene una alta tasa tanto de verdaderos positivos como
+de falsos positivos.
 
 \begin{figure}[H]
     \centering
@@ -178,8 +200,6 @@ TODO
 \end{figure}
 
 \section{Conclusiones}
-TODO
-
 
 \selectlanguage{spanish}
 \selectbiblanguage{spanish}
