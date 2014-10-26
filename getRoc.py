@@ -1,38 +1,40 @@
 import numpy as np
 
-#1 : dog
-#0 : no dog
 def processFile(inFile,thetas):
     #header doesn't help us
     inFile.readline()
     # now read what is important
-    total_positives = 0
-    total_negatives = 0
-    TP = [0.0] * len(thetas)
-    FP = [0.0] * len(thetas)
     
+    # positive number: number of images in the dataset that ARE dogs
+    P = 200
+    # negative number: number of images in the dataset that ARE NOT dogs
+    N = 200
+    # false positive: number of images that the MODEL SAYS ARE DOGS, but THEY ARE NOT
+    FP = [0.0] * len(thetas)
+    # true positive: number of images that the MODEL SAYS ARE DOGS, and THLEY ARE 
+    TP = [0.0] * len(thetas)
+    
+    #image counter - over 200 are no-dogs
     j = 0
     for line in inFile:
-        j += 1
         line = line.split();
-        # asigned class, class1 prob, class0 prob
-        line = [int(line[0]),float(line[1]),float(line[2])]
         
+        #1 : dog
+        #0 : no dog
+        given_class = int(line[0])
+        dog_P = float(line[1])
+        nodog_P = float(line[2])
+        
+        # model says is a dog
         for i in range(len(thetas)):
-            if line[1] > thetas[i]:
-                total_positives += 1
-            else:
-                total_negatives += 1
-            # dogP / nodogP
-            if line[1] / line[2] > thetas[i]:
-                #current_positives += 1
+            if dog_P / nodog_P > thetas[i]:
                 if j < 200:#is REALLY a dog?
                     TP[i] += 1
                 else:
                     FP[i] += 1
-        
-    TPR = [ positives / total_positives for positives in TP ]
-    FPR = [ positives / total_negatives for positives in FP ]
+        j += 1
+    TPR = [ positives / P for positives in TP ]
+    FPR = [ positives / N for positives in FP ]
     
     return zip(FPR,TPR)
 
