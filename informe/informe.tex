@@ -144,13 +144,27 @@ Se construyó una curva ROC a partir de los resultados de la clasificación con 
 
 \section{Discusión}
 
-en total (todos los modelos juntos) rechazan la mitad de los perros!
+\begin{comment}
+Se observa que, en general, el modelo alcanza resultados regulares. La curva ROC obtenida
+muestra un desempe ̃
+no ligeramente menor que el alcanzado por los autores de [1]. En partic-
+ular, el modelo parece presentar un menor rendimiento cuando el fondo es m ́as bien simple,
+logrando, por el contrario, un mejor comportamiento en casos en los que el fondo posee
+elementos rojizos (como madera, por ejemplo).
+Bajo condiciones de iluminaci ́on normales, el modelo parece presentar una alta sensibili-
+dad, si bien no una alta especificidad (lo que se observa rambi ́en en la curva ROC obtenida).
+Se aprecia, adem ́as, que se aquellas im ́agenes en las que el fondo presenta colores similares
+a la piel, como es esperable. En el otro extremo, im ́agenes con iluminaci ́on coloreada fallan
+considerablemente, presentando una baj ́ısima cantidad de verdaderos positivos.
+\end{comment}
 
-en total (todos los modelos juntos) aceptan 1/4 de los no-perros!
+En general se observan buenos resultados en la clasificación. Esta resulta mejor para descriptores de $k=500$ y $k=1000$ palabras visuales.
+Los falsos negativos obtenidos, perros clasificados como no-perros, generalmente son imágenes en las que el perro no juega un rol central.
+Es decir el fondo utiliza gran parte del espacio de la imágen. 
+Los falsos positivos obtenidos, no perros clasificados como perros, consisten en su mayoría de animales, como gatos, kanguros y rostros humanos.
+Es probable que esta confusión se deba a la presencia de cabello, el cual tiene palabras visuales comunes al pelaje de los perros.
 
-problemas de ruido, el perro ocupa un espacio muy pequeño de la imagen rechazo de perro
-
-falla con animales, gatos, kanguros, erizos y rostros humanos? -Z quizas por el pelo
+De los modelos trabajados $k=100$ es el que se desempeña peor. Tiene alta especificidad. (?)
 
 TODO
 
