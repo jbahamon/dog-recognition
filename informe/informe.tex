@@ -27,7 +27,7 @@
 
 \bibliographystyle{bababbrv}
 
-\title{Segmentación de Piel}
+\title{Clasificación de Perros utilizando Bag of Words}
 \author{Jorge Bahamonde, Sebastián González\\
 \small{\url{jbahamon@ug.uchile.cl}, \url{segonzal@dcc.uchile.cl}}}
 \date{}
@@ -36,12 +36,6 @@
 \maketitle
 
 \section{Introducción}
-
-% detectar la presencia de un animal es complejo
-% perros aun mas porque spn muy diferentes entre razas tamaños texturas del pelaje, etc
-% la estrategia de bag of words es una de las tecniacas del reconocimiento de patrones que entrega mejorres resultados
-% clasificamos usando lSVM (ibSVM)
-% comparamos resultados usando ROC, variando el parametro.
 
 La detección de animales en imágenes es una tarea compleja. La evolución ha llevado a
 las criaturas a adaptarce a sus medios, siendo la mímesis con su entorno una de las claves para la supervivencia de las especies.
@@ -66,23 +60,6 @@ Se estudió el desempeño de SVM sobre histogramas de palabras visuales, siguien
 
 \subsection{Generación de palabras visuales}
 
-\begin{comment}
-A) Generación de palabras visuales mediante clustering: En esta parte, se debe determinar un corpus formado por
-5000 imágenes, bajo las cuales se determinarán K palabras visuales. Para obtener el corpus se deben seleccionar
-aleatoriamente 5000 imágenes del dataset Caltech-256 (http://www.vision.caltech.edu/Image_Datasets/Caltech256/).
-Para cada imagen del corpus se debe calcular descriptores SIFT. Suponiendo que cada imagen genere
-aproximadamente 500 descriptores locales, en total tendremos 2.500.000 descriptores. Con el fin de facilitar el
-proceso se deben seleccionar aleatoriamente 100.000 descriptores que serán, finalmente, los que determinarán los K
-clústers. Luego, las K palabras visuales se obtienen mediante clusterizar el conjunto total de descriptores locales (los
-100.000). Una palabra visual estará representada por el centroide de un determinado clúster. Para el proceso de
-clustering deben usar la estrategia K-MEANS.
-Para obtener los descriptores locales puede usar diferentes libs como:
-• VLFeat http://www.vlfeat.org/
-• SIFT de OpenCV
-• SIFT de Lowe (http://www.cs.ubc.ca/~lowe/keypoints/)
-• Affine Covariant Features (http://www.robots.ox.ac.uk/~vgg/research/affine/index.html)
-\end{comment}
-
 Se definió un corpus formado por 5000 imágenes extraidas del dataset caltech-256. Para cada imagen se calcularon los descriptores SIFT.
 Estos descriptores locales fueron clusterizados utilizando k-means. Los k centroides entregados por este método se utilizaron como
 palabras visuales, para la posterior clasificación.
@@ -91,26 +68,23 @@ Se generaron palabras visuales para $k = 100, 500, 1000, 1500$.
 
 \subsection{Entrenamiento}
 
-\begin{comment}
-B) Entrenamiento usando SVN mediante histogramas Bag of Words: En esta etapa se debe modelar un
-clasificador que permita reconocer la ocurrencia de un perro en una imagen. Para este fin, es necesario obtener un
-conjunto de entrenamiento. Se recomienda obtener 500 imágenes de perros y 500 imágenes de no-perros. El dataset
-Caltech-256 contiene aproximadamente 100 imágenes de perros y miles de imágenes de no perros. Para completar el
-dataset de los patrones positivos (imágenes conteniendo un perro) se recomienda obtener las imágenes por Google.
-Para facilitar esta tarea, este dataset puede ser compartido entre todos los estudiantes del ramo.
-Teniendo el conjunto de entrenamiento, cada imagen se representa como un histograma Bag of Words. Este
-histograma representa la distribución de ocurrencias de descriptores locales de la imagen entre los K clústers o
-palabras visuales. El histograma debe ser normalizado a la unidad.
-La clasificación debe estar basada en la estrategia Support Vector Machine. Para este fin, se recomienda usar
-libSVM (http://www.csie.ntu.edu.tw/~cjlin/libsvm/). Deben experimentar con SVM + kernel RBF, los parámetros C y
-gamma deberán ser elegidos mediante validación cruzada. LibSVM incluye un pograma en Phyton para obtener los
-mejores parámetros.
-\end{comment}
-
 Se utilizó la librería libSVM, en particular el script "easy.py" incluido para entrenar cuatro modelos, cada modelo utiliza histogramas de 100, 500, 1000 ó 1500
 palabras visuales. Todos los modelos fueron entrenados utilizando 500 imágenes del dataset generado.
 
 \subsection{Clasificación}
+
+TODO
+
+Con los modelos entrenados, se clasificaron 400 imágenes, 200 de ellas conteniendo efectivamente perros.
+
+Es posible modelar una característica detectando mediante un modelo estadístico sobre las características de una imágen. estas caraceteristicas vienen en forma de descriptores de palabras visuales segun la estrategia bag of words.
+Usando este modelo estadistico, una imagen será clasficada como de perro si:
+P de ser perro / p de ser no perro > theta
+
+con theta un umbral.
+theta puede ser descrito como la funcion de costo de tener falsos positivos y negativos.
+
+Las distribuciones Pperro y Pnoperro son determinadas usando SVM
 
 Explicar $\Theta$ el ratio de FPR y TPR y bla bla ROC
 Esto debe servir para definir el ROC
@@ -129,25 +103,21 @@ Perro y No-Perro. Se contrastaron los resultados obtenidos con la clasificación
 Se definen, en este contexto: 
 
 \begin{itemize}
-    \item el \textbf{número de positivos ($P$)} como el número de imágenes en el dataset
-        que corresponden a Perros.
-    \item el \textbf{número de negativos ($N$)} como el número de imágenes en el dataset
-        que no corresponden a Perros.
+    \item el \textbf{número de positivos ($P$)} 200 imágenes en el set de prueba correspondientes a Perros.
+    \item el \textbf{número de negativos ($N$)} 200 imágenes que no corresponden a Perros.
     \item el \textbf{número de falsos positivos ($FP$)} como el número de
-        imágenes en el dataset que el modelo identifica que contiene Perros, pero que no
-        están clasificados como tal en el dataset.
+        imágenes de prueba que el modelo identifica erroneamente como Perros.
     \item el \textbf{número de verdaderos positivos ($TP$)} como el número de
-        imágenes en el dataset que el algoritmo identifica que contiene correctamente un Perro.
-    \item la \textbf{tasa de verdaderos positivos ($TPR$)} (también llamada
-        probabilidad de detección correcta) como $\frac{TP}{P}$;
-    \item la \textbf{tasa de falsos positivos ($FPR$)} (o probabilidad de
-        detección incorrecta) como $\frac{FP}{N}$.
+        imágenes de prueba identificadas correctamente como Perros.
+    \item la \textbf{tasa de verdaderos positivos ($TPR$)} o probabilidad de detección correcta, es la razón $\frac{TP}{P}$;
+    \item la \textbf{tasa de falsos positivos ($FPR$)} o probabilidad de detección incorrecta, es la razón $\frac{FP}{N}$.
 \end{itemize}
 
-Así, el comportamiento de un modelo de detección como el estudiado puede ser
-apreciado al comparar el comportamiento de la $FPR$ versus la $TPR$. La curva
-definida por estas dos variables al modificar un tercer parámetro se denomina curva
-ROC (del inglés \emph{receiver operating characteristic}). Esta curva muestra
+De esta forma es posible estudiar el desempeño de este modelo de detección, comparando el comportamiento de ambas tasas.
+El gráfico de $FPR$ versus $TPR$ al variar un tercer parámetro, en nuestro caso la función de costo $\Theta$, es denominado curva
+ROC (del inglés \emph{receiver operating characteristic}).
+
+Esta curva muestra
 cuán apropiado puede ser un modelo o algoritmo para ciertas aplicaciones, ya que
 el costo de un falso positivo versus un verdadero positivo varía dependiendo del
 contexto.
@@ -162,8 +132,8 @@ contexto.
 	xlabel={False Positive Rate},
 	ylabel={True Positive Rate},
 	grid=major,
-%	legend entries={$0.01$ , $0.1$,$0.5$},
-%	legend style={at={(0,1)},anchor=north west},
+	legend entries={$k=100$, $k=500$, $k=1000$, $k=1500$},
+	legend style={at={(1,0)},anchor=south east},
 ]
 \addplot table [scatter,x={FPR}, y={TPR}]{results100-ROC.csv};
 \addplot table [scatter,x={FPR}, y={TPR}]{results500-ROC.csv};
@@ -171,23 +141,26 @@ contexto.
 \addplot table [scatter,x={FPR}, y={TPR}]{results1500-ROC.csv};
 \end{axis}
 \end{tikzpicture}
-    \caption{Curva ROC obtenida al variar el parámetro umbral $\Theta \in \{ 0.1,0.5,...,0.9,0.91,...0,99\}$.}
+    \caption{Curva ROC obtenida al variar el parámetro umbral $\Theta \in \{ 0.1,0.5,...,0.95\}$, para los cuatro modelos entrenados.}
 \end{figure}
+
+Se construyó una curva ROC a partir de los resultados de la clasificación con SVM comparando con su clasificación real conocida ya que es dada por su distribución en el dataset.
+
+\section{Discusión}
+
+TODO
 
 \begin{figure}[H]
     \centering
     \subcaptionbox{No-Perro clasificado como Perro.}
-{\includegraphics[scale=0.4]{../no-dogs/eval/96.jpg}}
+{\includegraphics[scale=0.5]{../no-dogs/eval/96.jpg}}
     \subcaptionbox{Perro clasificado como No-Perro.}
-{\includegraphics[scale=0.3]{../dogs/eval/3.jpg}}
+{\includegraphics[scale=0.8]{../dogs/eval/14.jpg}}
     \caption{Errores de clasificación.}
 \end{figure}
 
-Antes de seguir tengo que arreglar el ROC.
-
-
 \section{Conclusiones}
-
+TODO
 \selectlanguage{spanish}
 \selectbiblanguage{spanish}
 
