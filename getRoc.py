@@ -34,6 +34,11 @@ def processFile(inFile,thethas):
     
     return zip(FPR,TPR)
 
+def writeFile(aList,outfile):
+    outfile.write("theta\tFPR\tTPR\n")
+    for (theta,(F,T)) in aList:
+        outfile.write(str(theta)+'\t'+str(F)+'\t'+str(T)+'\n')
+
 files = [
         "results100",
         "results500",
@@ -41,10 +46,21 @@ files = [
         "results1500"
         ]
 
-out = open("rocPoints.csv","w")
+thetas = np.arange(0.1, 0.9, 0.05).tolist()
+
 for f in files:
-    inF = open(f,"r")
-    arr = [f] + processFile(inF,np.arange(0.1, 0.9, 0.05))
-    out.write(str(arr)+'\n')
+    inF = open(f,'r')
+    outF = open(f+"-ROC.csv",'w')
+    writeFile(zip(thetas,processFile(inF,thetas)),outF)
+    outF.close()
     inF.close()
-out.close()
+
+#out = open("rocPoints.csv","w")
+#thetas = np.arange(0.1, 0.9, 0.05).tolist()
+#out.write(str(["file"]+thetas)+'\n')
+#for f in files:
+#    inF = open(f,"r")
+#    arr = [f] + processFile(inF,thetas)
+#    out.write(str(arr)+'\n')
+#    inF.close()
+#out.close()
