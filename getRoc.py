@@ -6,7 +6,7 @@ def processFile(inFile,thethas):
     #header doesn't help us
     inFile.readline()
     # now read what is important
-    current_positives = 0.0
+    current_positives = [0] * len(thethas)
     TP = [0.0] * len(thethas)
     FP = [0.0] * len(thethas)
     
@@ -17,20 +17,20 @@ def processFile(inFile,thethas):
         # asigned class, class1 prob, class0 prob
         line = [int(line[0]),float(line[1]),float(line[2])]
         
-        current_positives += line[0]
         for i in range(len(thethas)):
-            #dog_P / nodog_P
+            # dogP / nodogP
             if line[1] / line[2] > thethas[i]:
-                if j < 200:#is dog?
+                current_positives[i] += 1
+                if j < 200:#is REALLY a dog?
                     TP[i] += 1
                 else:
                     FP[i] += 1
     
-    total_positives = current_positives
-    total_negatives = 400 - total_positives
+    t_pos = current_positives
+    t_neg = [ 400 - h for h in t_pos ]
     
-    TPR = [ positives / total_positives for positives in TP ]
-    FPR = [ positives / total_negatives for positives in FP ]
+    TPR = [ positives / total_positives for (positives,total_positives) in zip(TP,t_pos) ]
+    FPR = [ positives / total_negatives for (positives,total_negatives) in zip(FP,t_neg) ]
     
     return zip(FPR,TPR)
 
@@ -46,11 +46,11 @@ files = [
         "results1500"
         ]
 
-thetas = np.arange(0.1, 0.9, 0.05).tolist()
+thetas = np.arange(0.1, 1, 0.05).tolist()
 
 for f in files:
     inF = open(f,'r')
-    outF = open(f+"-ROC.csv",'w')
+    outF = open("informe/"+f+"-ROC.csv",'w')
     writeFile(zip(thetas,processFile(inF,thetas)),outF)
     outF.close()
     inF.close()
