@@ -73,21 +73,17 @@ palabras visuales. Todos los modelos fueron entrenados utilizando 500 imágenes 
 
 \subsection{Clasificación}
 
-TODO
+Se clasificaron 400 imágenes, 200 de ellas conteniendo efectivamente perros, utilizando los modelos entranados anteriormente. La salida de SVM es un par de probabilidades 
+$(\mathbb{P}_{dog},\mathbb{P}_{\neg dog})$.
 
-Con los modelos entrenados, se clasificaron 400 imágenes, 200 de ellas conteniendo efectivamente perros.
+Una imágen es clasificada como perro si:
 
-Es posible modelar una característica detectando mediante un modelo estadístico sobre las características de una imágen. estas caraceteristicas vienen en forma de descriptores de palabras visuales segun la estrategia bag of words.
-Usando este modelo estadistico, una imagen será clasficada como de perro si:
-P de ser perro / p de ser no perro > theta
+\begin{equation}
+    \frac{ \mathbb{P}_{dog} }{ \mathbb{P}_{\neg dog} } =
+    \Theta
+\end{equation}
 
-con theta un umbral.
-theta puede ser descrito como la funcion de costo de tener falsos positivos y negativos.
-
-Las distribuciones Pperro y Pnoperro son determinadas usando SVM
-
-Explicar $\Theta$ el ratio de FPR y TPR y bla bla ROC
-Esto debe servir para definir el ROC
+Con $\Theta$ un umbral, el cual puede ser descrito como la función de costo de tener falsos positivos y negativos.
 
 \subsection{Dataset utilizado}
 Se construyó un dataset de 1400 imágenes en total. La mitad de estas imágenes son imágenes de perros extraidas aleatoriamente del dataset Cats and Dogs. 
@@ -148,6 +144,14 @@ Se construyó una curva ROC a partir de los resultados de la clasificación con 
 
 \section{Discusión}
 
+en total (todos los modelos juntos) rechazan la mitad de los perros!
+
+en total (todos los modelos juntos) aceptan 1/4 de los no-perros!
+
+problemas de ruido, el perro ocupa un espacio muy pequeño de la imagen rechazo de perro
+
+falla con animales, gatos, kanguros, erizos y rostros humanos? -Z quizas por el pelo
+
 TODO
 
 \begin{figure}[H]
@@ -155,12 +159,14 @@ TODO
     \subcaptionbox{No-Perro clasificado como Perro.}
 {\includegraphics[scale=0.5]{../no-dogs/eval/96.jpg}}
     \subcaptionbox{Perro clasificado como No-Perro.}
-{\includegraphics[scale=0.8]{../dogs/eval/14.jpg}}
+{\includegraphics[scale=1.5]{../dogs/eval/122.jpg}}
     \caption{Errores de clasificación.}
 \end{figure}
 
 \section{Conclusiones}
 TODO
+
+
 \selectlanguage{spanish}
 \selectbiblanguage{spanish}
 
