@@ -69,7 +69,7 @@ Se estudió el desempeño de SVM sobre histogramas de palabras visuales, siguien
 \subsection{Generación de palabras visuales}
 
 Se definió un corpus formado por 5000 imágenes extraidas del dataset
-caltech-256\cite{griffin2007caltech}. Para cada imagen se calcularon los
+caltech-256\cite{griffin2007caltech}. Para cada imágen se calcularon los
 descriptores SIFT utilizando OpenCV.
 Estos descriptores locales fueron clusterizados utilizando k-means, también a
 través de OpenCV. Los $k$ centroides entregados por este método se utilizaron como
@@ -80,7 +80,7 @@ Se generaron palabras visuales para $k = 100, 500, 1000, 1500$.
 \subsection{Entrenamiento}
 
 Se utilizó la librería libSVM para la generación de los modelos. Los datos (es
-decir, el valor de cada elemento de los histogramas que describen a cada imagen)
+decir, el valor de cada elemento de los histogramas que describen a cada imágen)
 fueron escalados entre 0 y 1. Se utilizó validación cruzada para buscar los
 mejores valores de $C$ y $\gamma$, los parámetros de entrenamiento. Cada modelo
 utiliza histogramas de 100, 500, 1000 ó 1500 palabras visuales. Todos los
@@ -119,7 +119,7 @@ de prueba.
 \includegraphics[height=100px]{../no-dogs/eval/167.jpg}
 \includegraphics[height=100px]{../dogs/eval/78.jpg}
 \includegraphics[height=100px]{../no-dogs/eval/145.jpg}
-    \caption{Imagenes del dataset.}
+    \caption{Imágenes del dataset.}
 \end{figure}
 
 \section{Resultados obtenidos}
@@ -180,7 +180,7 @@ En general se observan buenos resultados en la clasificación. Esta resulta mejo
 para descriptores de $k=500$ y $k=1000$ palabras visuales.  Los falsos negativos
 obtenidos (perros clasificados como no-perros) generalmente son imágenes en las
 que el perro no juega un rol central: por ejemplo, cuando el fondo utiliza gran parte del
-espacio de la imagen. Los falsos positivos obtenidos (no-perros clasificados
+espacio de la imágen. Los falsos positivos obtenidos (no-perros clasificados
 como perros) consisten en su mayoría en animales como gatos, canguros y rostros
 humanos. Es probable que esta confusión se deba a la presencia de cabello, el
 cual tiene palabras visuales comunes con el pelaje de los perros. Así,
