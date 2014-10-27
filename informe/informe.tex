@@ -205,13 +205,18 @@ aprendizaje computacional relativamente complejos, permitiendo aplicar
 estrategias como la validación cruzada para la elección de parámetros.
 
 %bosquejando
-El mejor desempeño de descriptores con un tamaño medio (digase $k=500$ y $k=1000$) tiene sentido.
-Descriptores con un gran vocabulario visual serán más homogeneas que un vocabulario restringido.
-Un vocabulario muy pobre en el otro sentido, no será suficiente para discriminar entre características.
+El mejor desempeño de descriptores con un tamaño medio (dígase $k=500$ y
+$k=1000$) tiene sentido. Descriptores con un gran vocabulario visual
+posiblemente presenten conjuntos de palabras similares, sin un poder
+discriminativo mayor que un vocabulario restringido. En el otro sentido, un
+vocabulario muy pobre, no será suficiente para discriminar entre
+características.
 
-La estrategia Bag of Words responde bien frente a un set de datos heterogeneo. Tiende a confundir animales con caracteristicas similares.
-Usar un descriptor de forma puede ayudar a filtrar los casos más extremos, por ejemplo confundir un perro con un rostro humano.
-Para el caso de diferenciar animales muy similares entre si, como perros y gatos, es un problema más complejo.
+La estrategia Bag of Words responde bien frente a un set de datos heterogéneo.
+Tiende a confundir animales con caracteristicas similares, con lo que usar un descriptor
+de forma puede ayudar a filtrar los casos más extremos (como confundir un
+perro con un rostro humano).  Para el caso de diferenciar animales muy similares
+entre sí, como perros y gatos, el problema pudiera volverse mucho más complejo. 
 %fin bosquejo
 
 \selectlanguage{spanish}
