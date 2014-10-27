@@ -70,8 +70,9 @@ Se estudió el desempeño de SVM sobre histogramas de palabras visuales, siguien
 
 Se definió un corpus formado por 5000 imágenes extraidas del dataset
 caltech-256\cite{griffin2007caltech}. Para cada imagen se calcularon los
-descriptores SIFT.
-Estos descriptores locales fueron clusterizados utilizando k-means. Los $k$ centroides entregados por este método se utilizaron como
+descriptores SIFT utilizando OpenCV.
+Estos descriptores locales fueron clusterizados utilizando k-means, también a
+través de OpenCV. Los $k$ centroides entregados por este método se utilizaron como
 palabras visuales, para la posterior clasificación.
 
 Se generaron palabras visuales para $k = 100, 500, 1000, 1500$.
@@ -205,6 +206,15 @@ de falsos positivos.
 \end{figure}
 
 \section{Conclusiones}
+
+A través de este trabajo se pudo apreciar cómo un método basado en descriptores
+locales como SIFT puede ser utilizado para la clasificación de imágenes. Es
+importante notar que aunque el método utilizado es relativamente genérico (por
+ejemplo, no incluye intuiciones con respecto a las propiedades de los perros)
+los resultados que entrega son bastante buenos. Se comprobó, además, cómo
+bibliotecas como libSVM son capaces de facilitar el trabajo con modelos de
+aprendizaje computacional relativamente complejos, permitiendo aplicar
+estrategias como la validación cruzada para la elección de parámetros.
 
 \selectlanguage{spanish}
 \selectbiblanguage{spanish}
