@@ -165,20 +165,6 @@ Se construyó una curva ROC a partir de los resultados de la clasificación con 
 
 \section{Discusión}
 
-\begin{comment}
-Se observa que, en general, el modelo alcanza resultados regulares. La curva ROC obtenida
-muestra un desempe ̃
-no ligeramente menor que el alcanzado por los autores de [1]. En partic-
-ular, el modelo parece presentar un menor rendimiento cuando el fondo es m ́as bien simple,
-logrando, por el contrario, un mejor comportamiento en casos en los que el fondo posee
-elementos rojizos (como madera, por ejemplo).
-Bajo condiciones de iluminaci ́on normales, el modelo parece presentar una alta sensibili-
-dad, si bien no una alta especificidad (lo que se observa rambi ́en en la curva ROC obtenida).
-Se aprecia, adem ́as, que se aquellas im ́agenes en las que el fondo presenta colores similares
-a la piel, como es esperable. En el otro extremo, im ́agenes con iluminaci ́on coloreada fallan
-considerablemente, presentando una baj ́ısima cantidad de verdaderos positivos.
-\end{comment}
-
 En general se observan buenos resultados en la clasificación. Esta resulta mejor
 para descriptores de $k=500$ y $k=1000$ palabras visuales.  Los falsos negativos
 obtenidos (perros clasificados como no-perros) generalmente son imágenes en las
@@ -199,9 +185,11 @@ de falsos positivos.
 \begin{figure}[H]
     \centering
     \subcaptionbox{No-Perro clasificado como Perro.}
-{\includegraphics[scale=0.5]{../no-dogs/eval/96.jpg}}
+{\includegraphics[scale=0.5]{../no-dogs/eval/96.jpg}
+  \includegraphics[scale=0.5]{../no-dogs/eval/157.jpg}}
     \subcaptionbox{Perro clasificado como No-Perro.}
-{\includegraphics[scale=1.5]{../dogs/eval/122.jpg}}
+{\includegraphics[scale=1.5]{../dogs/eval/122.jpg}
+  \includegraphics[scale=0.4]{../dogs/eval/194.jpg}}
     \caption{Errores de clasificación.}
 \end{figure}
 
@@ -215,6 +203,16 @@ los resultados que entrega son bastante buenos. Se comprobó, además, cómo
 bibliotecas como libSVM son capaces de facilitar el trabajo con modelos de
 aprendizaje computacional relativamente complejos, permitiendo aplicar
 estrategias como la validación cruzada para la elección de parámetros.
+
+%bosquejando
+El mejor desempeño de descriptores con un tamaño medio (digase $k=500$ y $k=1000$) tiene sentido.
+Descriptores con un gran vocabulario visual serán más homogeneas que un vocabulario restringido.
+Un vocabulario muy pobre en el otro sentido, no será suficiente para discriminar entre características.
+
+La estrategia Bag of Words responde bien frente a un set de datos heterogeneo. Tiende a confundir animales con caracteristicas similares.
+Usar un descriptor de forma puede ayudar a filtrar los casos más extremos, por ejemplo confundir un perro con un rostro humano.
+Para el caso de diferenciar animales muy similares entre si, como perros y gatos, es un problema más complejo.
+%fin bosquejo
 
 \selectlanguage{spanish}
 \selectbiblanguage{spanish}
