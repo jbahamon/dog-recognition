@@ -13,8 +13,6 @@ using namespace cv;
 void save_sparse_descriptors(ostream& stream, vector<int> labels, vector<Mat> data) 
 {
 
-    cout << data.size() << endl;
-
     for (int i = 0; i < data.size(); ++i)
     {
         Mat descriptor = data[i];

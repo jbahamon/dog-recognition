@@ -10,7 +10,7 @@ using namespace cv;
 int main (int argc, const char** argv) 
 {
    
-    int K_values[4] = { 100, 500, 1000, 1500 };
+    int K_values[4] = { 1000, 1200, 1400, 1600 };
 
     FileStorage f("descriptors.yml", FileStorage::READ);
     Mat descriptors;
